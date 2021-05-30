@@ -46,9 +46,12 @@
       options.year     && div.attr('year', parseInt(options.year));
       options.month    && div.attr('month', parseInt(options.month));
       options.day      && div.attr('day', parseInt(options.day));
-      options.hour     && div.attr('hour', parseInt(options.hour));
-      options.minute   && div.attr('minute', parseInt(options.minute));
-      if (options.dateOnly === '' || options.dateOnly === true) {
+      if (options.hour != undefined)
+        div.attr('hour', parseInt(options.hour));
+      if (options.minute != undefined)
+        div.attr('minute', parseInt(options.minute));
+      
+        if (options.dateOnly === '' || options.dateOnly === true) {
         div.attr('date-only', 'true');
       }
       if (options.closeOnSelect === 'false') {
@@ -332,11 +335,16 @@
             attrs.month = datePart[0];
             attrs.day = datePart[1];
 
-            var timePart = inputValue.split(' ')[1];
-            if (timePart) {
+            var timePart = inputValue.split(' ')[1],
+                ampmPart = inputValue.split(' ')[2];
+            if (timePart && ampmPart) {
               timePart = timePart.split(':');
-              attrs.hour = timePart[0];
-              attrs.minute = timePart[1];
+              var hour = parseInt(timePart[0]);
+              attrs.hour = hour;
+              if (hour === 12 && ampmPart.toLowerCase() == 'am') {
+                attrs.hour = 0;
+              }
+              attrs.minute = parseInt(timePart[1]);
             }
           }
 

@@ -337,14 +337,14 @@
 
             var timePart = inputValue.split(' ')[1],
                 ampmPart = inputValue.split(' ')[2];
-            if (timePart && ampmPart) {
+            if (timePart) {
               timePart = timePart.split(':');
               var hour = parseInt(timePart[0]);
               attrs.hour = hour;
-              if (hour === 12 && ampmPart.toLowerCase() == 'am') {
+              attrs.minute = parseInt(timePart[1]);
+              if (ampmPart && ampmPart.toLowerCase() == 'am' && hour === 12) {
                 attrs.hour = 0;
               }
-              attrs.minute = parseInt(timePart[1]);
             }
           }
 
